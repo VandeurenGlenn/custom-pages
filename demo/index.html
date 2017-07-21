@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>custom-pages - demo</title>
+    <link rel="import" href="../custom-pages.html">
+  </head>
+  <body>
+    <custom-pages attr-for-selected="data-uid" style="height: 250px; width: 250px;">
+      <h1 data-uid="0">Hello</h1>
+      <h1 data-uid="1">World</h1>
+    </custom-pages>
+
+    <button type="button" name="button">toggle selected</button>
+    <script>
+      let toggled = false;
+      const toggleSelected = () => {
+        toggled = !toggled
+        return toggled ? '1' : '0';
+      };
+      const pages = document.querySelector('custom-pages');
+      const button = document.querySelector('button');
+
+      pages.select('0')
+
+      button.addEventListener('click', () => {
+        pages.select(toggleSelected());
+      });
+    </script>
+  </body>
+</html>
