@@ -8,6 +8,7 @@
     "url": ""
   },
   "dependencies": {
-    "backed": "^0.6.2"
+    "backed": "^0.6.2",
+    "custom-select-mixins": "^0.2.0"
   }
 }
