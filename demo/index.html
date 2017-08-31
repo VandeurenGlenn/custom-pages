@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>custom-pages - demo</title>
-    <link rel="import" href="../custom-pages.html">
   </head>
   <body>
     <custom-pages attr-for-selected="data-uid" style="height: 250px; width: 250px;">
@@ -12,7 +11,9 @@
     </custom-pages>
 
     <button type="button" name="button">toggle selected</button>
-    <script>
+    <script type="module">
+      import './../custom-pages.js';
+
       let toggled = false;
       const toggleSelected = () => {
         toggled = !toggled
