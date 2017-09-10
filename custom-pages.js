@@ -1,4 +1,4 @@
-import LitMixin from './../backed/mixins/lit-mixin.js';
+import LitMixin from './../backed/mixins/lit-mixin.min.js';
 import CustomSelectMixin from './../custom-select-mixins/custom-select-mixin.js';
 
 /**
