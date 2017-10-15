@@ -24,7 +24,6 @@ class CustomPages extends LitMixin(CustomSelectMixin(HTMLElement)) {
    * set animation class when slot changes
    */
   slotchange() {
-    super.slotchange();
     let call = 0;
     for (const child of this.slotted.assignedNodes()) {
       if (child && child.nodeType === 1) {
