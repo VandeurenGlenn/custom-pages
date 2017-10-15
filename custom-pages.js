@@ -1,5 +1,6 @@
-import LitMixin from './../backed/mixins/lit-mixin.min.js';
+import LitMixin from './../backed/src/mixins/lit-mixin.js';
 import CustomSelectMixin from './../custom-select-mixins/custom-select-mixin.js';
+import {fireEvent} from './../backed/src/utils.js';
 
 /**
  * @extends HTMLElement
@@ -8,6 +9,13 @@ class CustomPages extends LitMixin(CustomSelectMixin(HTMLElement)) {
   constructor() {
     super();
   }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.slotchange = this.slotchange.bind(this);
+    this.shadowRoot.querySelector('slot').addEventListener('slotchange', this.slotchange);
+  }
+
   isEvenNumber(number) {
     return Boolean(number % 2 === 0)
   }
@@ -26,6 +34,7 @@ class CustomPages extends LitMixin(CustomSelectMixin(HTMLElement)) {
         } else {
           child.classList.add('animate-up');
         }
+        fireEvent('child-change', child, this);
       }
     }
   }
