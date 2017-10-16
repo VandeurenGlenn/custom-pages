@@ -8,6 +8,6 @@
   "flat": true,
   "dependencies": {
     "backed": "^0.9.2",
-    "custom-select-mixins": "next"
+    "custom-select-mixins": "^0.9.1"
   }
 }

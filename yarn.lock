@@ -2,23 +2,18 @@
 # yarn lockfile v1
 
 
-backed@^0.9.0-preview.2, backed@^0.9.2:
+backed@^0.9.0, backed@^0.9.2:
   version "0.9.2"
   resolved "https://registry.yarnpkg.com/backed/-/backed-0.9.2.tgz#a762e30907983c27b3469b309e6417b77a813399"
   dependencies:
     lit-html "^0.5.0"
 
-custom-select-mixins@next:
-  version "0.9.0-preview.3"
-  resolved "https://registry.yarnpkg.com/custom-select-mixins/-/custom-select-mixins-0.9.0-preview.3.tgz#a49ca36a7018c81361f542abf232dcbcce0f7b18"
+custom-select-mixins@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/custom-select-mixins/-/custom-select-mixins-0.9.1.tgz#3b52bc3bba0be7d88056312f4cd4116bb60831cb"
   dependencies:
-    backed "^0.9.0-preview.2"
-    lodash-es "^4.17.4"
+    backed "^0.9.0"
 
-lit-html@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.5.0.tgz#eb2fb1202d16fbae5f9d0879ba487b286d6b8458"
-
-lodash-es@^4.17.4:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
+lit-html@^0.5.0, lit-html@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.7.1.tgz#61785045cf84f9ee955fa078c2985b52b765ad16"

@@ -1,4 +1,4 @@
-import LitMixin from './../backed/src/mixins/lit-mixin.js';
+import LitMixin from './../backed/mixins/lit-mixin.js';
 import CustomSelectMixin from './../custom-select-mixins/custom-select-mixin.js';
 import {fireEvent} from './../backed/src/utils.js';
 
