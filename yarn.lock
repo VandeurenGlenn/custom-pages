@@ -2,18 +2,18 @@
 # yarn lockfile v1
 
 
-backed@^0.9.0, backed@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/backed/-/backed-0.9.2.tgz#a762e30907983c27b3469b309e6417b77a813399"
+backed@0.11.1, backed@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/backed/-/backed-0.11.1.tgz#4f2ccd8f408d96c4ba8a462bfe958edf429ece30"
   dependencies:
-    lit-html "^0.5.0"
+    lit-html "^0.7.1"
 
-custom-select-mixins@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/custom-select-mixins/-/custom-select-mixins-0.9.1.tgz#3b52bc3bba0be7d88056312f4cd4116bb60831cb"
+custom-select-mixins@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/custom-select-mixins/-/custom-select-mixins-0.11.2.tgz#682e1da976e00c1aeb2da8097124f05f1b849484"
   dependencies:
-    backed "^0.9.0"
+    backed "^0.11.1"
 
-lit-html@^0.5.0, lit-html@^0.7.1:
+lit-html@^0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-0.7.1.tgz#61785045cf84f9ee955fa078c2985b52b765ad16"

@@ -1,13 +1,17 @@
 {
   "name": "custom-pages",
-  "version": "0.9.3",
+  "version": "0.11.0",
   "main": "custom-pages.js",
+  "module": "src/custom-pages.js",
   "repository": "https://github.com/VandeurenGlenn/custom-pages.git",
   "author": "VandeurenGlenn <vandeurenglenn@gmail.com>",
   "license": "MIT",
   "flat": true,
   "dependencies": {
-    "backed": "^0.9.2",
-    "custom-select-mixins": "^0.9.1"
+    "backed": "^0.11.1",
+    "custom-select-mixins": "^0.11.2"
+  },
+  "resolutions": {
+    "backed": "0.11.1"
   }
 }
