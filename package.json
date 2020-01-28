@@ -1,6 +1,6 @@
 {
   "name": "custom-pages",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "main": "custom-pages.js",
   "module": "src/custom-pages.js",
   "repository": "https://github.com/VandeurenGlenn/custom-pages.git",
