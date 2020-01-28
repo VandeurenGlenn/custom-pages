@@ -5,7 +5,6 @@ var CustomPages = (function () {
   // binding does it's magic using the propertyStore ...
   window.Backed.PropertyStore = window.Backed.PropertyStore || new Map();
 
-  const render = window.Backed.Renderer;
   // TODO: Create & add global observer
   var PropertyMixin = base => {
     return class PropertyMixin extends base {
@@ -22,11 +21,6 @@ var CustomPages = (function () {
         if (this.properties) {
           for (const entry of Object.entries(this.properties)) {
             const { observer, reflect, renderer } = entry[1];
-            if (observer || reflect || renderer) {
-              if (renderer && !render) {
-                console.warn('Renderer undefined');
-              }
-            }
             // allways define property even when renderer is not found.
             this.defineProperty(entry[0], entry[1]);
           }
@@ -40,8 +34,8 @@ var CustomPages = (function () {
             if (String(attribute.name).includes('on-')) {
               const fn = attribute.value;
               const name = attribute.name.replace('on-', '');
-              target.addEventListener(String(name), event => {
-                target = event.path[0];
+              this.addEventListener(String(name), event => {
+                let target = event.path[0];
                 while (!target.host) {
                   target = target.parentNode;
                 }
@@ -79,7 +73,9 @@ var CustomPages = (function () {
             }
 
             if (renderer) {
-              if (renderer in this) render(this[renderer](), this.shadowRoot);
+              const obj = {};
+              obj[property] = value;
+              if (renderer in this) this.render(obj, this[renderer]);
               else console.warn(`renderer::${renderer} undefined`);
             }
 
@@ -97,12 +93,6 @@ var CustomPages = (function () {
     }
   }
 
-  //
-
-  //
-  // merge
-  //
-
   /**
    * @mixin Backed
    * @module utils
@@ -114,7 +104,7 @@ var CustomPages = (function () {
    * @param {object} source The object to merge
    * @return {object} merge result
    */
-  const merge = (object = {}, source = {}) => {
+  var merge = (object = {}, source = {}) => {
     // deep assign
     for (const key of Object.keys(object)) {
       if (source[key]) {
@@ -128,65 +118,7 @@ var CustomPages = (function () {
       }
     }
     return object;
-  };
-
-
-   let sheduled = false;
-   const afterRenderQue = [];
-   const beforeRenderQue = [];
-
-   const callMethod = array => {
-     const context = array[0];
-     const callback = array[1];
-     const args = array[2];
-     try {
-       callback.apply(context, args);
-     } catch(e) {
-       setTimeout(() => {
-         throw e;
-       });
-     }
-   };
-
-   const flushQue = que => {
-     while (que.length) {
-       callMethod(que.shift);
-     }
-   };
-
-   const runQue = que => {
-     for (let i=0, l=que.length; i < l; i++) {
-       callMethod(que.shift());
-     }
-     sheduled = false;
-   };
-
-   const shedule = () => {
-     sheduled = true;
-     requestAnimationFrame(() => {
-       flushQue(beforeRenderQue);
-       setTimeout(() => {
-         runQue(afterRenderQue);
-       });
-     });
-   };
-
-   const RenderStatus = (() => {
-     window.RenderStatus = window.RenderStatus || {
-       afterRender: (context, callback, args) => {
-         if (!sheduled) {
-           shedule();
-         }
-         afterRenderQue.push([context, callback, args]);
-       },
-       beforeRender: (context, callback, args) => {
-         if (!sheduled) {
-           shedule();
-         }
-         beforeRenderQue.push([context, callback, args]);
-       }
-     };
-   })();
+  }
 
   var SelectMixin = base => {
     return class SelectMixin extends PropertyMixin(base) {
@@ -209,7 +141,13 @@ var CustomPages = (function () {
       }
 
       get _assignedNodes() {
-        return 'assignedNodes' in this.slotted ? this.slotted.assignedNodes() : this.children;
+        const nodes = 'assignedNodes' in this.slotted ? this.slotted.assignedNodes() : this.children;
+        const arr = [];
+        for (var i = 0; i < nodes.length; i++) {
+          const node = nodes[i];
+          if (node.nodeType === 1) arr.push(node);
+        }
+        return arr;
       }
 
       /**
@@ -237,7 +175,9 @@ var CustomPages = (function () {
        * @param {string|number|HTMLElement} selected
        */
       select(selected) {
-        this.selected = selected;
+        if (selected) this.selected = selected;
+        // TODO: fix selectedobservers
+        if (this.multi) this.__selectedObserver__();
       }
 
       next(string) {
@@ -275,31 +215,32 @@ var CustomPages = (function () {
        * @param {string|number|HTMLElement} change.value
        */
       __selectedObserver__(value) {
-        switch (typeof this.selected) {
-          case 'object':
-            this._updateSelected(this.selected);
-            break;
-          case 'string':
-            for (const child of this._assignedNodes) {
-              if (child.nodeType === 1) {
-                if (child.getAttribute(this.attrForSelected) === this.selected) {
-                  return this._updateSelected(child);
-                }
+        const type = typeof this.selected;
+        if (Array.isArray(this.selected)) {
+          for (const child of this._assignedNodes) {
+            if (child.nodeType === 1) {
+              if (this.selected.indexOf(child.getAttribute(this.attrForSelected)) !== -1) {
+                child.classList.add('custom-selected');
+              } else {
+                child.classList.remove('custom-selected');
               }
             }
-            if (this.currentSelected) {
-              this.currentSelected.classList.remove('custom-selected');
+          }
+          return;
+        } else if (type === 'object') return this._updateSelected(this.selected);
+        else if (type === 'string') {
+          for (const child of this._assignedNodes) {
+            if (child.nodeType === 1) {
+              if (child.getAttribute(this.attrForSelected) === this.selected) {
+                return this._updateSelected(child);
+              }
             }
-            break;
-          default:
-            // set selected by index
-            const child = this._assignedNodes[this.selected];
-            if (child && child.nodeType === 1) {
-              this._updateSelected(child);
-            // remove selected even when nothing found, better to return nothing
-            } else if (this.currentSelected) {
-              this.currentSelected.classList.remove('custom-selected');
-            }
+          }
+        } else {
+          // set selected by index
+          const child = this._assignedNodes[this.selected];
+          if (child && child.nodeType === 1) this._updateSelected(child);
+          // remove selected even when nothing found, better to return nothing
         }
       }
     }

@@ -8,6 +8,9 @@
   "license": "MIT",
   "flat": true,
   "dependencies": {
-    "custom-select-mixins": "^0.11.3"
+    "custom-select-mixins": "^0.13.0"
+  },
+  "scripts": {
+    "c": "rollup -c"
   }
 }
